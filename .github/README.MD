@@ -8,7 +8,7 @@ This module can be used to create a PostgreSQL database
 
 ```hcl-terraform
 module "application_database" {
-  source = "git::https://github.com/TerraFlops/aws-rds-postgres-serverless?ref=v1.0"
+  source = "git::https://github.com/TerraFlops/aws-rds-postgres-serverless?ref=v1.1"
   name = "example"
   master_username = "company_master"
   # Restore from snapshot

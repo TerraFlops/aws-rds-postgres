@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Name of the database (must be MySQL compliant)"
+  description = "Name of the database (must be PostgreSQL compliant)"
   type = string
 }
 
@@ -70,17 +70,17 @@ variable "database_cluster_parameters" {
 variable "engine" {
   description = "RDS database engine"
   type = string
-  default = "postgres"
+  default = "aurora-postgresql"
 }
 
 variable "engine_version" {
   description = "RDS database engine version"
   type = string
-  default = "12.3"
+  default = "11.8"
 }
 
 variable "family" {
   description = "RDS database family"
   type = string
-  default = "postgres12"
+  default = "aurora-postgresql11"
 }

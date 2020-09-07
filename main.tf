@@ -43,7 +43,7 @@ resource "random_password" "master_user_password" {
 # Create database cluster
 resource "aws_rds_cluster" "database_cluster" {
   snapshot_identifier = var.snapshot_identifier
-  engine_mode = "serverless"
+  engine_mode = "provisioned"
   engine = var.engine
   engine_version = var.engine_version
   backup_retention_period = var.backup_retention_period

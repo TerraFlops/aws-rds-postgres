@@ -6,7 +6,7 @@ variable "name" {
 variable "instance_count" {
   description = "Number of database instances"
   type = number
-  value = 2
+  default = 2
 }
 
 variable "instance_class" {

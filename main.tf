@@ -60,3 +60,12 @@ resource "aws_rds_cluster" "database_cluster" {
     Name = var.name
   }
 }
+
+# Create instances
+resource "aws_rds_cluster_instance" "database_cluster_instance" {
+  count = var.instance_count
+  instance_class = var.instance_class
+  cluster_identifier = aws_rds_cluster.database_cluster.id
+  engine = aws_rds_cluster.database_cluster.engine
+  engine_version = aws_rds_cluster.database_cluster.engine_version
+}

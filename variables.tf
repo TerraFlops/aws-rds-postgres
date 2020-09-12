@@ -3,6 +3,18 @@ variable "name" {
   type = string
 }
 
+variable "instance_count" {
+  description = "Number of database instances"
+  type = number
+  value = 2
+}
+
+variable "instance_class" {
+  description = "Database instance class"
+  type = string
+  default = "db.t3.medium"
+}
+
 variable "security_group_ids" {
   description = "Set of AWS security group IDs to link to the database"
   type = set(string)

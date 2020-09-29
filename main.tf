@@ -88,6 +88,7 @@ data "aws_iam_policy_document" "monitoring_rds_trust_policy_document" {
 # Create instances
 resource "aws_rds_cluster_instance" "database_cluster_instance" {
   count = var.instance_count
+  identifier = "instance-${count.index + 1}"
   instance_class = var.instance_class
   cluster_identifier = aws_rds_cluster.database_cluster.id
   engine = aws_rds_cluster.database_cluster.engine

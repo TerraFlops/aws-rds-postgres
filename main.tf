@@ -96,4 +96,7 @@ resource "aws_rds_cluster_instance" "database_cluster_instance" {
   performance_insights_enabled = true
   monitoring_interval = 1
   monitoring_role_arn = aws_iam_role.monitoring.arn
+  lifecycle {
+    create_before_destroy = true
+  }
 }

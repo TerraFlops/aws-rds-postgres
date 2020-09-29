@@ -70,7 +70,7 @@ resource "aws_rds_cluster" "database_cluster" {
 }
 
 resource "aws_iam_role" "monitoring" {
-  name = "${database_title}RdsMonitoringRole"
+  name = "${local.database_title}RdsMonitoringRole"
   assume_role_policy = data.aws_iam_policy_document.monitoring_rds_trust_policy_document.json
 }
 

@@ -58,10 +58,6 @@ resource "aws_rds_cluster" "database_cluster" {
   storage_encrypted = var.storage_encrypted
   vpc_security_group_ids = var.security_group_ids
   enabled_cloudwatch_logs_exports = [
-    "audit",
-    "error",
-    "general",
-    "slowquery",
     "postgresql"
   ]
   tags = {

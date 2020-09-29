@@ -1,6 +1,7 @@
 # Convert the database name into compliant names for cluster/subnet groups
 locals {
   database_id = replace(var.name, "_", "-")
+  database_title = join("", [for element in split("_", replace(lower(var.name), "-", "_")): title(element)])
   database_subnet_group_name = "${local.database_id}-database-subnet-group"
   database_cluster_parameter_group_name = "${local.database_id}-database-cluster-parameter-group"
 }
@@ -56,8 +57,35 @@ resource "aws_rds_cluster" "database_cluster" {
   skip_final_snapshot = var.skip_final_snapshot
   storage_encrypted = var.storage_encrypted
   vpc_security_group_ids = var.security_group_ids
+  enabled_cloudwatch_logs_exports = [
+    "audit",
+    "error",
+    "general",
+    "slowquery",
+    "postgresql"
+  ]
   tags = {
     Name = var.name
+  }
+}
+
+resource "aws_iam_role" "monitoring" {
+  name = "${database_title}RdsMonitoringRole"
+  assume_role_policy = data.aws_iam_policy_document.monitoring_rds_trust_policy_document.json
+}
+
+resource "aws_iam_role_policy_attachment" "monitoring" {
+  role = aws_iam_role.monitoring.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+}
+
+data "aws_iam_policy_document" "monitoring_rds_trust_policy_document" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = ["monitoring.rds.amazonaws.com"]
+    }
   }
 }
 
@@ -68,4 +96,7 @@ resource "aws_rds_cluster_instance" "database_cluster_instance" {
   cluster_identifier = aws_rds_cluster.database_cluster.id
   engine = aws_rds_cluster.database_cluster.engine
   engine_version = aws_rds_cluster.database_cluster.engine_version
+  performance_insights_enabled = true
+  monitoring_interval = 1
+  monitoring_role_arn = aws_iam_role.monitoring.arn
 }

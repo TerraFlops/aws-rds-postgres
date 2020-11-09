@@ -119,33 +119,3 @@ resource "aws_db_event_subscription" "database_cluster_alert" {
     "notification"
   ]
 }
-
-resource "aws_sns_topic" "database_instance_alert" {
-  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
-}
-
-resource "aws_db_event_subscription" "database_instance_alert" {
-  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
-  sns_topic = aws_sns_topic.database_instance_alert.arn
-  source_type = "db-instance"
-  source_ids = flatten([
-    for instance in aws_rds_cluster_instance.database_cluster_instance: [
-      instance.id
-    ]
-  ])
-  event_categories = [
-    "availability",
-    "backup",
-    "configuration change",
-    "creation",
-    "deletion",
-    "failover",
-    "failure",
-    "low storage",
-    "maintenance",
-    "notification",
-    "read replica",
-    "recovery",
-    "restoration"
-  ]
-}

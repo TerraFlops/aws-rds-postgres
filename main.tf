@@ -1,6 +1,7 @@
 # Convert the database name into compliant names for cluster/subnet groups
 locals {
   database_id = replace(var.name, "_", "-")
+  database_id_snake = join("", [for element in split("-", lower(replace(var.name, "_", "-"))) : title(element)])
   database_title = join("", [for element in split("_", replace(lower(var.name), "-", "_")): title(element)])
   database_subnet_group_name = "${local.database_id}-database-subnet-group"
   database_cluster_parameter_group_name = "${local.database_id}-database-cluster-parameter-group"
@@ -99,4 +100,32 @@ resource "aws_rds_cluster_instance" "database_cluster_instance" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_sns_topic" "database_cluster_alert" {
+  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
+}
+
+resource "aws_db_event_subscription" "database_cluster_alert" {
+  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
+  sns_topic = aws_sns_topic.database_cluster_alert.arn
+  source_type = "db-instance"
+  source_ids = [
+    aws_rds_cluster.database_cluster.id
+  ]
+  event_categories = [
+    "availability",
+    "backup",
+    "configuration change",
+    "creation",
+    "deletion",
+    "failover",
+    "failure",
+    "low storage",
+    "maintenance",
+    "notification",
+    "read replica",
+    "recovery",
+    "restoration"
+  ]
 }

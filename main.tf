@@ -128,9 +128,11 @@ resource "aws_db_event_subscription" "database_instance_alert" {
   name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
   sns_topic = aws_sns_topic.database_instance_alert.arn
   source_type = "db-instance"
-  source_ids = [
-    aws_rds_cluster_instance.database_cluster_instance.id
-  ]
+  source_ids = flatten([
+    for instance in aws_rds_cluster_instance.database_cluster_instance: [
+      instance.id
+    ]
+  ])
   event_categories = [
     "availability",
     "backup",

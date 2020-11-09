@@ -103,15 +103,33 @@ resource "aws_rds_cluster_instance" "database_cluster_instance" {
 }
 
 resource "aws_sns_topic" "database_cluster_alert" {
-  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
+  name = "${local.database_id_snake}PostgresDatabaseClusterAlert"
 }
 
 resource "aws_db_event_subscription" "database_cluster_alert" {
   name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
   sns_topic = aws_sns_topic.database_cluster_alert.arn
-  source_type = "db-instance"
+  source_type = "db-cluster"
   source_ids = [
     aws_rds_cluster.database_cluster.id
+  ]
+  event_categories = [
+    "failover",
+    "maintenance",
+    "notification"
+  ]
+}
+
+resource "aws_sns_topic" "database_instance_alert" {
+  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
+}
+
+resource "aws_db_event_subscription" "database_instance_alert" {
+  name = "${local.database_id_snake}PostgresDatabaseInstanceAlert"
+  sns_topic = aws_sns_topic.database_instance_alert.arn
+  source_type = "db-instance"
+  source_ids = [
+    aws_rds_cluster_instance.database_cluster_instance.id
   ]
   event_categories = [
     "availability",

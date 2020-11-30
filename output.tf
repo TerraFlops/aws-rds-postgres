@@ -22,6 +22,10 @@ output "database_cluster_instance" {
   value = aws_rds_cluster_instance.database_cluster_instance
 }
 
+output "database_cluster_instance_count" {
+  value = var.instance_count
+}
+
 output "database_cluster_arn" {
   value = aws_rds_cluster.database_cluster.arn
 }

@@ -18,6 +18,10 @@ output "database_cluster_reader_endpoint" {
   value = aws_rds_cluster.database_cluster.reader_endpoint
 }
 
+output "database_cluster_instance" {
+  value = aws_rds_cluster_instance.database_cluster_instance
+}
+
 output "database_cluster_arn" {
   value = aws_rds_cluster.database_cluster.arn
 }

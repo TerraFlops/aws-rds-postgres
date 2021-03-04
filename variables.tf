@@ -15,6 +15,12 @@ variable "instance_class" {
   default = "db.t3.medium"
 }
 
+variable "deletion_protection" {
+  description = "Boolean flag, if True deletion protection will be enabled"
+  type = bool
+  default = false
+}
+
 variable "security_group_ids" {
   description = "Set of AWS security group IDs to link to the database"
   type = set(string)

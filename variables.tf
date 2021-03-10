@@ -102,3 +102,9 @@ variable "family" {
   type = string
   default = "aurora-postgresql11"
 }
+
+variable "sns_topic_kms_master_key_id" {
+  type = string
+  description = "Optional KMS key ID to use for SNS topic encryption"
+  default = null
+}

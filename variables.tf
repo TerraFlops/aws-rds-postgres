@@ -108,3 +108,9 @@ variable "sns_topic_kms_master_key_id" {
   description = "Optional KMS key ID to use for SNS topic encryption"
   default = null
 }
+
+variable "performance_insights_kms_key_id" {
+  type = string
+  description = "Optional KMS key ID to use for performance insights encryption"
+  default = null
+}

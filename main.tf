@@ -87,6 +87,8 @@ data "aws_iam_policy_document" "monitoring_rds_trust_policy_document" {
   }
 }
 
+# Create KMS
+
 # Create instances
 resource "aws_rds_cluster_instance" "database_cluster_instance" {
   count = var.instance_count
@@ -96,6 +98,7 @@ resource "aws_rds_cluster_instance" "database_cluster_instance" {
   engine = aws_rds_cluster.database_cluster.engine
   engine_version = aws_rds_cluster.database_cluster.engine_version
   performance_insights_enabled = true
+  performance_insights_kms_key_id = var.performance_insights_kms_key_id
   monitoring_interval = 1
   monitoring_role_arn = aws_iam_role.monitoring.arn
   lifecycle {

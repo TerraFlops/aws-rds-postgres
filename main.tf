@@ -50,6 +50,7 @@ resource "aws_rds_cluster" "database_cluster" {
   engine_version = var.engine_version
   backup_retention_period = var.backup_retention_period
   global_cluster_identifier = ""
+  replication_source_identifier = ""
   cluster_identifier = local.database_id
   database_name = var.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.cluster_parameter_group.name
@@ -65,6 +66,11 @@ resource "aws_rds_cluster" "database_cluster" {
   ]
   tags = {
     Name = var.name
+  }
+  lifecycle {
+    ignore_changes = [
+      master_password
+    ]
   }
 }
 

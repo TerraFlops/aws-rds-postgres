@@ -61,6 +61,7 @@ resource "aws_rds_cluster" "database_cluster" {
   skip_final_snapshot = var.skip_final_snapshot
   storage_encrypted = var.storage_encrypted
   vpc_security_group_ids = var.security_group_ids
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
   enabled_cloudwatch_logs_exports = [
     "postgresql"
   ]

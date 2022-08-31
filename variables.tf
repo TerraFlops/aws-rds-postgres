@@ -3,6 +3,11 @@ variable "name" {
   type = string
 }
 
+variable "iam_database_authentication_enabled" {
+  type = bool
+  default = false
+}
+
 variable "instance_count" {
   description = "Number of database instances"
   type = number

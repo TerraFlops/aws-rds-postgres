@@ -34,6 +34,10 @@ output "database_cluster_id" {
   value = aws_rds_cluster.database_cluster.id
 }
 
+output "database_cluster_resource_id" {
+  value = aws_rds_cluster.database_cluster.cluster_resource_id
+}
+
 output "database_cluster_port" {
   value = aws_rds_cluster.database_cluster.port
 }
